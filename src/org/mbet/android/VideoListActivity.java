@@ -2,11 +2,14 @@ package org.mbet.android;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
 import android.view.Window;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -89,5 +92,20 @@ public class VideoListActivity extends ListActivity {
         	
         }
         
+    }
+    
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id){
+     super.onListItemClick(l, v, position, id);
+     
+     // Get the item that was clicked
+     //String s = (String)this.getListAdapter().getItem(position);
+     	Intent tostart = new Intent(Intent.ACTION_VIEW);
+     	int oldPosition = mCursor.getPosition();
+     	mCursor.moveToPosition(position);
+     	tostart.setDataAndType(Uri.parse(mCursor.getString(mCursor.getColumnIndex("link"))), "video/*");
+     	startActivity(tostart);
+     	mCursor.moveToPosition(oldPosition);
+		return;
     }
 }
