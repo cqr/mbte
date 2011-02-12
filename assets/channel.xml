@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<channel>
+	<item>
+		<title>This is the title</title>
+		<link>http://km.support.apple.com/library/APPLE/APPLECARE_ALLGEOS/HT1211/sample_iTunes.mov</link>
+		<thumbnail>http://a.images.blip.tv/Commonscreative-CCOfficeLunchNLearnSimoneAliprandi614-577-504.jpg
+		</thumbnail>
+	</item>
+	<item>
+		<title>This is the title</title>
+		<link>http://km.support.apple.com/library/APPLE/APPLECARE_ALLGEOS/HT1211/sample_iTunes.mov</link>
+		<thumbnail>http://a.images.blip.tv/Commonscreative-CCOfficeLunchNLearnSimoneAliprandi614-577-504.jpg</thumbnail>
+	</item>
+</channel>

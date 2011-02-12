@@ -1,5 +1,6 @@
 package org.mbet.android;
 
+import java.io.InputStream;
 import java.net.URL;
 
 import javax.xml.parsers.SAXParserFactory;
@@ -36,6 +37,8 @@ public class XMLHelper {
 				String qName) {
 			currentElement = false;
 			
+			System.out.println(localName);
+			
 			if (videoItem != null){
 				if (localName.equals("title")) {
 					videoItem.setTitle(currentValue);
@@ -45,9 +48,12 @@ public class XMLHelper {
 					videoItem.setThumbnail(currentValue);
 				} else if (localName.equals("item")){
 					videoItem = null;
-				} else if (localName.equals("channel")){
-					videoChannel.save();
 				}
+			}
+			
+			if (localName.equals("channel")){
+				System.out.println("saving channel");
+				videoChannel.save();
 			}
 			
 		}
@@ -63,17 +69,25 @@ public class XMLHelper {
 	};
 	
 	
-	public static void parseXML(URL xmlUrl){
+	public static void parseXML(InputStream xmlStream){
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		
 		try {
 			XMLReader xmlReader = factory.newSAXParser().getXMLReader();
 			xmlReader.setContentHandler(new ChannelHandler());
-			xmlReader.parse(new InputSource(xmlUrl.openStream()));
+			xmlReader.parse(new InputSource(xmlStream));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static void parseXML(URL xmlUrl){
+		try{
+			parseXML(xmlUrl.openStream());
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public static void parseXML(String xmlUrl){

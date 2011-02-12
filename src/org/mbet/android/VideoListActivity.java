@@ -2,13 +2,15 @@ package org.mbet.android;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Window;
 import android.widget.ListView;
+import java.io.InputStream;
 
-public class VideoList extends ListActivity {
+public class VideoListActivity extends ListActivity {
 	
 	Handler mHandler = new Handler(){
 		
@@ -42,10 +44,32 @@ public class VideoList extends ListActivity {
         /** Get the ListView **/
         mListView = getListView();
         
-        /** This is where we would download **/
+        /** Initialize our database **/
+        DatabaseHelper.init(this, "mbet");
         
-        
-        
+        /** download and parse xml file **/
+        AsyncTask<InputStream, Integer, Boolean> mTask = new AsyncTask<InputStream, Integer, Boolean>() {
+			@Override
+			protected Boolean doInBackground(InputStream... streams) {
+				// TODO Auto-generated method stub
+				XMLHelper.parseXML(streams[0]);
+				return true;
+			}
+			
+			@Override
+			protected void onProgressUpdate(Integer... progressions){
+				
+			}
+			
+			protected void onPostExecute(Boolean result){
+				mDialog.dismiss();
+			}
+        };
+        try {
+        	mTask.execute(getAssets().open("channel.xml"));
+        } catch (Exception e) {
+        	
+        }
         
     }
 }

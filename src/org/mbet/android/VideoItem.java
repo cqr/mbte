@@ -1,8 +1,20 @@
 package org.mbet.android;
 
+import android.util.Log;
+
 public class VideoItem {
 	
+	private int id;
 	private String title, link, thumbnail;
+	
+	public VideoItem(){}
+	public VideoItem(int myId){
+		id = myId;
+	}
+	
+	public int getId() {
+		return id;
+	}
 	
 	public String getTitle() {
 		return title;
@@ -30,8 +42,8 @@ public class VideoItem {
 	}
 
 	public void save() {
-		// TODO Auto-generated method stub
-		
+		DatabaseHelper dbh = DatabaseHelper.getInstance();
+		dbh.saveVideo(this);
 	}
 
 }
