@@ -48,11 +48,10 @@ public class VideoListActivity extends ListActivity {
         DatabaseHelper.init(this, "mbet");
         
         /** download and parse xml file **/
-        AsyncTask<InputStream, Integer, Boolean> mTask = new AsyncTask<InputStream, Integer, Boolean>() {
+        AsyncTask<String, Integer, Boolean> mTask = new AsyncTask<String, Integer, Boolean>() {
 			@Override
-			protected Boolean doInBackground(InputStream... streams) {
-				// TODO Auto-generated method stub
-				XMLHelper.parseXML(streams[0]);
+			protected Boolean doInBackground(String... urls) {
+				XMLHelper.parseXML(urls[0]);
 				return true;
 			}
 			
@@ -66,7 +65,7 @@ public class VideoListActivity extends ListActivity {
 			}
         };
         try {
-        	mTask.execute(getAssets().open("channel.xml"));
+        	mTask.execute("http://mbet.sethirl.com/xml");
         } catch (Exception e) {
         	
         }

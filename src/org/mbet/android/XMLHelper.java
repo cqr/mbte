@@ -37,8 +37,6 @@ public class XMLHelper {
 				String qName) {
 			currentElement = false;
 			
-			System.out.println(localName);
-			
 			if (videoItem != null){
 				if (localName.equals("title")) {
 					videoItem.setTitle(currentValue);
@@ -52,7 +50,6 @@ public class XMLHelper {
 			}
 			
 			if (localName.equals("channel")){
-				System.out.println("saving channel");
 				videoChannel.save();
 			}
 			

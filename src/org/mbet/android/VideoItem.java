@@ -1,6 +1,5 @@
 package org.mbet.android;
 
-import android.util.Log;
 
 public class VideoItem {
 	
@@ -42,8 +41,7 @@ public class VideoItem {
 	}
 
 	public void save() {
-		DatabaseHelper dbh = DatabaseHelper.getInstance();
-		dbh.saveVideo(this);
+		DatabaseHelper.getInstance().saveVideo(this);
 	}
 
 }

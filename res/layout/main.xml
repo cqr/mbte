@@ -2,19 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
          android:orientation="vertical"
          android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:paddingLeft="8dp"
-         android:paddingRight="8dp">
+         android:layout_height="match_parent">
+     <TextView android:id="@+id/title"
+     		   android:layout_width="match_parent"
+     		   android:layout_height="35dp"
+     		   android:paddingLeft="8dp"
+         	   android:paddingRight="8dp"
+         	   android:paddingTop="8dp"
+         	   android:textColor="#FFFFFF"
+         	   android:shadowColor="#000000"
+         	   android:shadowDy="-1"
+         	   android:shadowRadius="1"
+     		   android:background="@drawable/title_background"
+     		   android:text="Mobile Base: Emergency Training" />
 
      <ListView android:id="@id/android:list"
-               android:layout_width="match_parent"
+               android:layout_width="fill_parent"
                android:layout_height="match_parent"
                android:background="#ffffff"
                android:layout_weight="1"
                android:drawSelectorOnTop="false"/>
 
-     <ImageView android:id="@id/android:empty"
-               android:layout_width="fill_parent"
-               android:layout_height="fill_parent"
-               android:src="@drawable/mbet"/>
+     <TextView android:id="@id/android:empty"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:paddingLeft="8dp"
+         	   android:paddingRight="8dp"
+         	   android:paddingTop="8dp"
+               android:text="Downloading..."/>
  </LinearLayout>
