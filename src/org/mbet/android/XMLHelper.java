@@ -37,7 +37,7 @@ public class XMLHelper {
 				String qName) {
 			currentElement = false;
 			
-			if (videoItem != null){
+			if (true){
 				if (localName.equals("title")) {
 					videoItem.setTitle(currentValue);
 				} else if (localName.equals("link")) {
@@ -57,9 +57,9 @@ public class XMLHelper {
 		
 		@Override
 		public void characters(char[] characters, int start, int length){
-			if (currentElement) {
-				currentValue = new String(characters, start, length);
-				currentElement = false;
+			String nv = new String(characters, start, length).trim();
+			if (!nv.equals("")){
+				currentValue = nv;
 			}
 		}
 		

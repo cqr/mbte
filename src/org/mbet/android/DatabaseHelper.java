@@ -1,6 +1,8 @@
 package org.mbet.android;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -31,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE videos(id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(255), url VARCHAR(255), thumbnail VARCHAR(255) )");
+		db.execSQL("CREATE TABLE videos(_id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(255), link VARCHAR(255), thumbnail VARCHAR(255) )");
 	}
 
 	@Override
@@ -41,7 +43,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public void saveVideo(VideoItem videoItem) {
-		getWritableDatabase().execSQL("INSERT INTO VIDEOS(title, url, thumbnail) VALUES(?, ?, ?)", new String[]{ videoItem.getTitle(), videoItem.getLink(), videoItem.getThumbnail()} );
+		ContentValues cv = new ContentValues();
+		cv.put("title", videoItem.getTitle());
+		cv.put("link", videoItem.getLink());
+		cv.put("thumbnail", videoItem.getThumbnail());
+		try {
+			getWritableDatabase().insertOrThrow("videos", null, cv);
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 }

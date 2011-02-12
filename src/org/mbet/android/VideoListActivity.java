@@ -2,21 +2,43 @@ package org.mbet.android;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Window;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+
 import java.io.InputStream;
 
 public class VideoListActivity extends ListActivity {
 	
+	protected static final int SYNC_DID_COMPLETE = 0666;
+	protected Cursor mCursor;
+
 	Handler mHandler = new Handler(){
 		
 		public void handleMessage(Message msg){
-			
-			super.handleMessage(msg);
+			switch(msg.what){
+			case SYNC_DID_COMPLETE:
+				mCursor = DatabaseHelper.getInstance().getReadableDatabase().query("videos", new String[] { "_id as _id", "title as title", "link as link" }, null, null, null, null, null );//rawQuery("SELECT _id, title as title , url as url FROM videos", null);
+		        startManagingCursor(mCursor);
+		        System.out.println("Got " + mCursor.getCount() + " rows.");
+				ListAdapter adapter = new SimpleCursorAdapter(
+		                 VideoListActivity.this, // Context.
+		                 android.R.layout.two_line_list_item,  // Specify the row template to use (here, two columns bound to the two retrieved cursor
+		                 mCursor,                              // Pass in the cursor to bind to.
+		                 new String[] {"title", "link"},        // Array of cursor columns to bind to.
+		                 new int[] {android.R.id.text1, android.R.id.text2});  // Parallel array of which template objects to bind to those columns.
+
+		         // Bind to our new adapter.
+		         setListAdapter(adapter);
+		         mDialog.dismiss();
+		         break;
+			}
 			
 		}
 		
@@ -41,9 +63,6 @@ public class VideoListActivity extends ListActivity {
         mDialog.setMessage("Downloading video information");
         mDialog.show();
         
-        /** Get the ListView **/
-        mListView = getListView();
-        
         /** Initialize our database **/
         DatabaseHelper.init(this, "mbet");
         
@@ -61,7 +80,7 @@ public class VideoListActivity extends ListActivity {
 			}
 			
 			protected void onPostExecute(Boolean result){
-				mDialog.dismiss();
+				mHandler.sendEmptyMessage(SYNC_DID_COMPLETE);
 			}
         };
         try {

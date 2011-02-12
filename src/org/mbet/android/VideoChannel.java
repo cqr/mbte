@@ -12,6 +12,7 @@ public class VideoChannel {
 	
 	public void save() {
 		VideoItem videoItem;
+		DatabaseHelper.getInstance().getWritableDatabase().execSQL("DELETE from videos");
 		for (int i = 0; i < mVideoItems.size(); i++){
 			videoItem = mVideoItems.get(i);
 			videoItem.save();
