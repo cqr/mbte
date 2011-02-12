@@ -1,18 +1,19 @@
 package org.mbet.android;
 
-import javax.xml.parsers.SAXParser;
+import java.net.URL;
+
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
+import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class XMLHelper {
 	
-	private static DefaultHandler myXMLHandler = new DefaultHandler(){
-		Boolean currentElement = false;
+	private static class ChannelHandler extends DefaultHandler{
 		
+		Boolean currentElement = false;
 		
 		String currentValue;
 		VideoChannel videoChannel;
@@ -62,14 +63,24 @@ public class XMLHelper {
 	};
 	
 	
-	public static void parseXML(){
-		SAXParserFactory spf = SAXParserFactory.newInstance();
+	public static void parseXML(URL xmlUrl){
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+		
 		try {
-			SAXParser sp = spf.newSAXParser();
-			XMLReader xr = sp.getXMLReader();
+			XMLReader xmlReader = factory.newSAXParser().getXMLReader();
+			xmlReader.setContentHandler(new ChannelHandler());
+			xmlReader.parse(new InputSource(xmlUrl.openStream()));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static void parseXML(String xmlUrl){
+		try {
+			parseXML(new URL(xmlUrl));
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
